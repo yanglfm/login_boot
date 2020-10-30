@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tom.login_boot.mapper.db1.UserMapper">
+
+    <resultMap id="secondModuleMap" type="com.tom.login_boot.model.Module">
+        <id property="id" column="ID"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="redirect" column="redirect"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="component" column="component"/>
+        <result property="icon" column="icon"/>
+        <association property="meta" resultMap="metaMap"/>
+    </resultMap>
+    <resultMap id="metaMap" type="com.tom.login_boot.model.Meta">
+        <result property="title" column="name"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+    <select id="getOne" resultType="com.tom.login_boot.model.User">
+        select * from vue.user where name=#{user.username} and password=#{user.password}
+    </select>
+    <select id="selectByUsername" resultType="com.tom.login_boot.model.User">
+        select * from vue.user where name=#{user.username}
+    </select>
+    <select id="getUserRoles" resultType="com.tom.login_boot.model.Role">
+        select r.id,r.name
+        from role r
+        where r.id in (select ur.role_id
+               from user_role ur
+               where ur.user_id = (select u.user_id from user u where u.name = #{username}))
+    </select>
+    <select id="getParentModules" resultMap="secondModuleMap">
+         select id, name, path, icon, module_type, order_no, component,redirect
+         from module m
+         where m.id in (
+             select rm.module_id
+             from role_module rm
+             where rm.role_id in (
+                 ${roleIds}
+                 )
+         )  and m.parent_id is null order by m.order_no
+    </select>
+    <select id="getSecondModules" resultMap="secondModuleMap">
+         select id, name, path, icon, module_type, order_no, parent_id, component
+         from module m
+         where m.id in (
+             select rm.module_id
+             from role_module rm
+             where rm.role_id in (${roleIds})
+         )
+         and m.parent_id in (${parentIds})  order by m.order_no
+    </select>
+</mapper>
