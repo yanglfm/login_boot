@@ -1,12 +1,11 @@
 package com.tom.login_boot.aop;
 
 import com.tom.login_boot.model.WebLog;
-import com.tom.login_boot.utils.JwtUtil;
+import com.tom.login_boot.service.UserService;
 import com.tom.login_boot.utils.JwtUtils;
 import com.tom.login_boot.utils.RequestUtil;
 import io.swagger.annotations.ApiOperation;
-import lombok.Data;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
+import javafx.geometry.Pos;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -16,14 +15,15 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -35,6 +35,9 @@ import java.util.Map;
 @Component
 @Order(1)
 public class LogAspect {
+
+    @Resource
+    private UserService userServiceImpl;
 
     private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
@@ -61,6 +64,7 @@ public class LogAspect {
             ApiOperation log = method.getAnnotation(ApiOperation.class);
             webLog.setDescription(log.value());
         }
+        webLog.setContentPath(requestURI);
         long endTime = System.currentTimeMillis();
         webLog.setBasePath(RequestUtil.getBathPath(request));
         webLog.setIp(request.getRemoteUser());
@@ -69,7 +73,7 @@ public class LogAspect {
         webLog.setResult(result);
 //        webLog.setSpendTime((int) (endTime - startTime.get()));
 //        webLog.setStartTime(startTime.get());
-
+        System.out.println("----webLog-----" + webLog);
         System.out.println("-----end-------");
 
         return result;

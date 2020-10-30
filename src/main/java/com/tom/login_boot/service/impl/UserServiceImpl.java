@@ -4,9 +4,11 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tom.login_boot.common.ResultEntity;
 //import com.tom.login_boot.mapper.db2.UserMapper;
 import com.tom.login_boot.mapper.db1.UserMapper;
+import com.tom.login_boot.mapper.db1.WebLogMapper;
 import com.tom.login_boot.model.Module;
 import com.tom.login_boot.model.Role;
 import com.tom.login_boot.model.User;
+import com.tom.login_boot.model.WebLog;
 import com.tom.login_boot.service.UserService;
 import com.tom.login_boot.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private WebLogMapper webLogMapper;
 
     @Resource
     private JwtUtils jwtUtils;
@@ -87,6 +91,11 @@ public class UserServiceImpl implements UserService {
             System.out.println("childModule---" + childModule);
         }
         return new ResultEntity("查询成功", 200, map);
+    }
+
+    @Override
+    public ResultEntity addLog(WebLog webLog) {
+        return ResultEntity.success(webLogMapper.insertSelective(webLog));
     }
 
     private List<Module> getModules(List<Module> parentModules, List<Module> secondModules) {

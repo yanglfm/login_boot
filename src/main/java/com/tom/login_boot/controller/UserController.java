@@ -22,12 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api(tags = "UserController", description = "用户模块")
 public class UserController {
 
-    //    @PostMapping("/login2")
-//    @ApiOperation(value = "用户登陆")
-//    public User login2(@RequestBody User user) {
-//        System.out.println("user==" + user);
-//        return user;
-//    }
+
     @Resource
     private UserService userServiceImpl;
 
@@ -49,27 +44,19 @@ public class UserController {
     @ApiOperation(value = "退出登录")
     public ResultEntity login(HttpServletRequest request) {
         //删除token
-
         ResultEntity resultEntity = new ResultEntity();
         resultEntity.setMsg("成功退出");
         resultEntity.setCode(200);
         return resultEntity;
     }
 
-    @GetMapping("/userInfo")
+    @GetMapping(value = "/userInfo")
     @ApiOperation(value = "用户信息")
     public ResultEntity getUserInfo(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         return userServiceImpl.userInfo(authorization);
     }
 
-    @PostMapping("/userInfo2")
-    @ApiOperation(value = "用户信息")
-    public ResultEntity getUserInfo2(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "password", required = false) String password) {
-//        System.out.println("user----"+user);
-//        return ResultEntity.success(user);
-        return null;
-    }
 
 
 }
