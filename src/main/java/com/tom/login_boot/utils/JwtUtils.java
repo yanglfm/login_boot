@@ -12,6 +12,7 @@ import io.jsonwebtoken.impl.DefaultClock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class JwtUtils {
 
     private static final String TOKEN_SECRET = "DD5654D654DSD5S1D65S4D65S1D";
 
-    public static String AUTHORIZATION="Authorization";
+    public static String AUTHORIZATION = "Authorization";
 
     /**
      * @param username
@@ -41,7 +42,8 @@ public class JwtUtils {
      */
     public String createToken(String username) {
         //过期时间
-        Date date = new Date(System.currentTimeMillis() + expiredTime);
+        //毫秒级
+        Date date = new Date(System.currentTimeMillis() + expiredTime*1000);
         //私钥及加密算法
         Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
         //设置头部信息
@@ -66,11 +68,15 @@ public class JwtUtils {
     public boolean verify(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .build();
-            DecodedJWT jwt = verifier.verify(token);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            try {
+                DecodedJWT jwt = verifier.verify(token);
+                return true;
+            } catch (JWTVerificationException e) {
+                e.printStackTrace();
+                return false;
+            }
 
-            return true;
         } catch (IllegalArgumentException | JWTVerificationException e) {
             e.printStackTrace();
             return false;
@@ -93,5 +99,13 @@ public class JwtUtils {
         }
     }
 
+    public static void main(String[] args) {
+//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDQzMDU2OTgsInVzZXJuYW1lIjoidG9tIn0.PfaZ7NuxkIpQG8v4UPByIW6l6JrXxECaAMPsY2MTI1U";
+        JwtUtils jwtUtils = new JwtUtils();
+        String token = jwtUtils.createToken("测试");
+
+        boolean verify = jwtUtils.verify(token);
+        System.out.println("verify--->" + verify);
+    }
 
 }

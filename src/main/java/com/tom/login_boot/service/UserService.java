@@ -10,4 +10,8 @@ public interface UserService {
     ResultEntity userInfo(String token);
 
     ResultEntity addLog(WebLog webLog);
+
+    ResultEntity checkUsername(String username);
+
+    ResultEntity changeUserInfo(User user);
 }

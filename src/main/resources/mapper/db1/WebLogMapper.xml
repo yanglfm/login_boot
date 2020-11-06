@@ -2,5 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tom.login_boot.mapper.db1.WebLogMapper">
 
+    <resultMap id="webLogResultMap" type="com.tom.login_boot.model.WebLog">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="description" column="description"/>
+        <result property="insertTime" column="insert_time"/>
+        <result property="contentPath" column="content_path"/>
+    </resultMap>
 
+    <insert id="addWebLog" parameterType="com.tom.login_boot.model.WebLog">
+        insert into web_log (content_path, username, description)
+        values(#{webLog.contentPath},#{webLog.username},#{webLog.description})
+    </insert>
+
+
+    <select id="selectByUsername" resultMap="webLogResultMap">
+        select  * from web_log where username=#{username}
+    </select>
 </mapper>

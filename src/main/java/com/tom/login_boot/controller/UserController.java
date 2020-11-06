@@ -1,17 +1,11 @@
 package com.tom.login_boot.controller;
 
-import com.tom.login_boot.common.ApiResult;
 import com.tom.login_boot.common.ResultEntity;
-import com.tom.login_boot.enums.ApiCode;
 import com.tom.login_boot.model.User;
 import com.tom.login_boot.service.UserService;
-import com.tom.login_boot.utils.JwtUtil;
 import com.tom.login_boot.utils.JwtUtils;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -57,6 +51,18 @@ public class UserController {
         return userServiceImpl.userInfo(authorization);
     }
 
+    @GetMapping("/checkUsername")
+    @ApiOperation("校验用户名")
+    public ResultEntity checkUsername(String username) {
+        return userServiceImpl.checkUsername(username);
+    }
+
+
+    @PostMapping("/changeUserInfo")
+    @ApiOperation("修改用户信息")
+    public ResultEntity changeUserInfo(@RequestBody User user) {
+        return userServiceImpl.changeUserInfo(user);
+    }
 
 
 }

@@ -13,6 +13,10 @@ public class ResultEntity {
     private Integer code;
     private Object data;
 
+    public static ResultEntity success() {
+        return success("");
+    }
+
     public static ResultEntity success(String msg, Integer code, Object data) {
         return new ResultEntity(msg, code, data);
     }

@@ -58,7 +58,11 @@ public class LoginFilter extends OncePerRequestFilter {
                 errMsg = "jwt为空";
             } else {
                 try {
-                    jwtUtils.verify(token);
+                    if (jwtUtils.verify(token)) {
+
+                    } else {
+                        errMsg = "jwt过期";
+                    }
                 } catch (TokenExpiredException e) {
                     errMsg = "jwt过期";
                     e.printStackTrace();
@@ -68,11 +72,16 @@ public class LoginFilter extends OncePerRequestFilter {
                 }
             }
             if (!StringUtils.isEmpty(errMsg)) {
+                //设置response查询的码表
+                httpServletResponse.setCharacterEncoding("UTF-8");
+                //通过一个头"Content-type"告知客户端使用何种码表
+                httpServletResponse.setHeader("Content-type", "text/html;charset=UTF-8");
                 PrintWriter pw = httpServletResponse.getWriter();
                 String s = JsonUtil.objectToString(new ResultEntity(errMsg, 401, ""));
                 pw.write(s);
                 pw.flush();
                 pw.close();
+                return;
             }
         }
 

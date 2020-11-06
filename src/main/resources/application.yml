@@ -28,4 +28,4 @@ logging:
 
 jwt:
   secretKey: login
-  expiredTime: 86400
+  expiredTime: 6000

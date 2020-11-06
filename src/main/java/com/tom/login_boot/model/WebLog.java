@@ -1,12 +1,17 @@
 package com.tom.login_boot.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Table;
+import java.sql.Date;
 
 @Table(name = "web_log")
 @Data
+@ToString
 public class WebLog {
+
+    private String id;
 
     private String description;
     private String username;
@@ -23,6 +28,7 @@ public class WebLog {
     private String ip;
     private Object parameter;
     private Object result;
+    private Date insertTime;
 
 
 }

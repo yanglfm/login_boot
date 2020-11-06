@@ -13,11 +13,13 @@ public interface UserMapper extends Mapper<User> {
 
     User getOne(@Param("user") User user);
 
-    User selectByUsername(@Param("user") User user);
+    User selectByUsername(@Param("username") String username);
 
     List<Role> getUserRoles(@Param("username") String username);
 
     List<Module> getParentModules(@Param("roleIds") String roleIds);
 
     List<Module> getSecondModules(@Param("parentIds") String parentIds,@Param("roleIds") String roleIds);
+
+    void updateUser(@Param("user") User user);
 }

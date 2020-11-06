@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             log.info("测试log是否可以使用");
-            User one = userMapper.selectByUsername(user);
+            User one = userMapper.selectByUsername(user.getUsername());
 
             if (one != null) {//存在该用户
                 //判断密码是否正确
@@ -64,6 +64,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultEntity userInfo(String token) {
         String username = jwtUtils.getUserName(token);
+        if (StringUtils.isEmpty(username)) return ResultEntity.success("无该数据");
+        User user = userMapper.selectByUsername(username);
         List<Role> userRoles = userMapper.getUserRoles(username);
         List<Module> parentModules = new ArrayList<>();
         List<Module> childModules = new ArrayList<>();
@@ -82,11 +84,11 @@ public class UserServiceImpl implements UserService {
             List<Module> secondModules = userMapper.getSecondModules(parentIds, roleIds);
             System.out.println("secondModules---->" + secondModules);
             childModules = getModules(parentModules, secondModules);
-
         }
         HashMap<String, Object> map = new HashMap<>();
         map.put("roles", userRoles);
         map.put("menus", childModules);
+        map.put("user", user);
         for (Module childModule : childModules) {
             System.out.println("childModule---" + childModule);
         }
@@ -95,7 +97,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultEntity addLog(WebLog webLog) {
-        return ResultEntity.success(webLogMapper.insertSelective(webLog));
+        System.out.println("webLog------->" + webLog);
+        System.out.println("webLogMapper------->" + webLogMapper);
+        try {
+            webLogMapper.addWebLog(webLog);
+            return ResultEntity.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.fail();
+        }
+    }
+
+    @Override
+    public ResultEntity checkUsername(String username) {
+        User user = userMapper.selectByUsername(username);
+        if (!StringUtils.isEmpty(user)) {
+            if (user.getUsername().equals(username)) {
+                return ResultEntity.success();
+            } else {
+                return ResultEntity.success("用户名已存在");
+            }
+        }else {
+            return ResultEntity.success("可以为该用户名");
+        }
+
+    }
+
+    @Override
+    public ResultEntity changeUserInfo(User user) {
+        userMapper.updateUser(user);
+
+        return null;
     }
 
     private List<Module> getModules(List<Module> parentModules, List<Module> secondModules) {
