@@ -53,15 +53,19 @@ public class UserController {
 
     @GetMapping("/checkUsername")
     @ApiOperation("校验用户名")
-    public ResultEntity checkUsername(String username) {
-        return userServiceImpl.checkUsername(username);
+    public ResultEntity checkUsername(String username,HttpServletRequest request) {
+        String authorization = request.getHeader(JwtUtils.AUTHORIZATION);
+        String currentUsername = jwtUtils.getUserName(authorization);
+        ResultEntity resultEntity = userServiceImpl.checkUsername(username, currentUsername);
+        System.out.println("resultEntity---------->"+resultEntity);
+        return resultEntity;
     }
 
 
-    @PostMapping("/changeUserInfo")
+    @PostMapping("/editUserInfo")
     @ApiOperation("修改用户信息")
-    public ResultEntity changeUserInfo(@RequestBody User user) {
-        return userServiceImpl.changeUserInfo(user);
+    public ResultEntity editUserInfo(@RequestBody User user) {
+        return userServiceImpl.editUserInfo(user);
     }
 
 

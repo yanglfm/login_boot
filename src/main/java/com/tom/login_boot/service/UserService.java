@@ -11,7 +11,7 @@ public interface UserService {
 
     ResultEntity addLog(WebLog webLog);
 
-    ResultEntity checkUsername(String username);
+    ResultEntity checkUsername(String username,String currentUsername);
 
-    ResultEntity changeUserInfo(User user);
+    ResultEntity editUserInfo(User user);
 }

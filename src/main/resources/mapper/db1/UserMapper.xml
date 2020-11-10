@@ -24,7 +24,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
     <update id="updateUser">
-        update vue.user
+
     </update>
     <select id="getOne" resultMap="userResultMap">
         select * from vue.user where username=#{user.username} and password=#{user.password}

@@ -3,6 +3,7 @@ package com.tom.login_boot.service.impl;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tom.login_boot.common.ResultEntity;
 //import com.tom.login_boot.mapper.db2.UserMapper;
+import com.tom.login_boot.enums.ApiCode;
 import com.tom.login_boot.mapper.db1.UserMapper;
 import com.tom.login_boot.mapper.db1.WebLogMapper;
 import com.tom.login_boot.model.Module;
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -109,25 +111,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultEntity checkUsername(String username) {
+    public ResultEntity checkUsername(String username, String currentUsername) {
+        System.out.println("currentUsername---" + currentUsername);
         User user = userMapper.selectByUsername(username);
+        Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(user)) {
-            if (user.getUsername().equals(username)) {
-                return ResultEntity.success();
+            if (user.getUsername().equals(currentUsername)) {
+                map.put("code", 2000);
+                map.put("msg", ApiCode.USERNAME_HAS_NO_CHANGE.getMsg());
+                return ResultEntity.success(map);
             } else {
-                return ResultEntity.success("用户名已存在");
+                map.put("code", 2001);
+                map.put("msg", ApiCode.USERNAME_EXISTED.getMsg());
+                return ResultEntity.success(map);
             }
-        }else {
-            return ResultEntity.success("可以为该用户名");
+        } else {
+            map.put("code", 200);
+            map.put("msg", ApiCode.USERNAME_CAN_USE.getMsg());
+            return ResultEntity.success(map);
         }
+
 
     }
 
     @Override
-    public ResultEntity changeUserInfo(User user) {
-        userMapper.updateUser(user);
-
-        return null;
+    public ResultEntity editUserInfo(User user) {
+        try {
+            userMapper.updateByPrimaryKey(user);
+            return ResultEntity.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.fail();
+        }
     }
 
     private List<Module> getModules(List<Module> parentModules, List<Module> secondModules) {
