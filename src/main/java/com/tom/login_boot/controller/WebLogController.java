@@ -19,10 +19,18 @@ public class WebLogController {
     @Resource
     private WebLogService webLogServiceImpl;
 
+    /**
+     * @param username 当前用户的用户名
+     * @param pageNo   页数
+     * @param pageNum  每页多少条数据
+     * @param search   搜索的内容
+     * @return
+     */
     @GetMapping("/getWebLogList")
     @ApiOperation(value = "获取日志列表")
-    ResultEntity getWebLogList(@Param("username") String username) {
-        return webLogServiceImpl.getWebLogList(username);
+    ResultEntity getWebLogList(@Param("username") String username, @Param("pageNo") Integer pageNo,
+                               @Param("pageNum") Integer pageNum, @Param("search") String search) {
+        return webLogServiceImpl.getWebLogList(username, (pageNo - 1) * pageNum, pageNo * pageNum, search);
     }
 
     @PostMapping("/addWebLog")

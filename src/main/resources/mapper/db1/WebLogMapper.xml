@@ -17,6 +17,20 @@
 
 
     <select id="selectByUsername" resultMap="webLogResultMap">
-        select  * from web_log where username=#{username}
+        select *
+        from web_log
+        where username = #{username}
+        <if test="search!=null and search!=''">
+            and description like '%#{search}%'
+        </if>
+        limit #{start},#{end}
+    </select>
+    <select id="getWebLogCount" resultType="java.lang.Long">
+        select count(*)  countNum
+        from web_log
+        where username = #{username}
+        <if test="search!=null and search!=''">
+            and description like '%#{search}%'
+        </if>
     </select>
 </mapper>

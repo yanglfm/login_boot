@@ -9,5 +9,12 @@ import java.util.List;
 public interface WebLogMapper extends Mapper<WebLog> {
     void addWebLog(@Param("webLog") WebLog webLog);
 
-    List<WebLog> selectByUsername(@Param("username") String username);
+    List<WebLog> selectByUsername(@Param("username") String username,
+                                  @Param("start")Integer start,
+                                  @Param("end")Integer end,
+                                  @Param("search")String search
+                                  );
+
+    Long getWebLogCount(@Param("username") String username,
+                        @Param("search")String search);
 }

@@ -7,7 +7,9 @@ import com.tom.login_boot.service.WebLogService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WebLogServiceImpl implements WebLogService {
@@ -16,9 +18,13 @@ public class WebLogServiceImpl implements WebLogService {
     private WebLogMapper webLogMapper;
 
     @Override
-    public ResultEntity getWebLogList(String username) {
-        List<WebLog> webLogs = webLogMapper.selectByUsername(username);
-        return ResultEntity.success(webLogs);
+    public ResultEntity getWebLogList(String username, Integer start, Integer end, String search) {
+        List<WebLog> webLogs = webLogMapper.selectByUsername(username, start, end, search);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("tableData", webLogs);
+        map.put("totalNum", webLogMapper.getWebLogCount(username, search));
+        return ResultEntity.success(map);
     }
 
     @Override
