@@ -38,4 +38,5 @@ public class WebLogController {
     ResultEntity addWebLog(@RequestBody WebLog webLog) {
         return webLogServiceImpl.addWebLog(webLog);
     }
+
 }
