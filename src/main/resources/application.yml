@@ -35,9 +35,4 @@ jwt:
 
 # 腾讯云文件服务器
 # 参考路径：https://cloud.tencent.com/document/product/436/10199
-oss:
-  secretId: AKIDaw1HGyso24qLZBJ962iPjV7qFNinu6My
-  secretKey: p66vUUy9ON4bkxuzo6BLFsFLs75fz2ny
-  bucketName: doraemon-1258736360
-  region: ap-shanghai
-  baseUrl: https://doraemon-1258736360.cos.ap-shanghai.myqcloud.com
+
