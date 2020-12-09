@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tom.login_boot.mapper.db1.PageMapper">
+
+    <insert id="addPath">
+   insert into vue.module
+   (name, path, parent_id, component)
+   values (#{module.name}, #{module.path }, #{module.parentId} ,#{module.component} )
+    </insert>
+
+</mapper>

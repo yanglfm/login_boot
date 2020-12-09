@@ -23,6 +23,8 @@
         <result property="phone" column="phone"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
+
+
     <update id="updateUser">
 
     </update>
@@ -59,5 +61,8 @@
              where rm.role_id in (${roleIds})
          )
          and m.parent_id in (${parentIds})  order by m.order_no
+    </select>
+    <select id="getUserList" resultMap="userResultMap">
+        select * from  vue.user
     </select>
 </mapper>

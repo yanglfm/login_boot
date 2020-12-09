@@ -1,12 +1,14 @@
 package com.tom.login_boot.model;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
+@Builder
 public class Module {
     private Integer id;
     private String name;
@@ -18,4 +20,8 @@ public class Module {
     //转发的地址
     private String redirect;
     private Meta meta;
+    private Integer orderNo;
+
+
+
 }

@@ -22,4 +22,7 @@ public interface UserMapper extends Mapper<User> {
     List<Module> getSecondModules(@Param("parentIds") String parentIds,@Param("roleIds") String roleIds);
 
     void updateUser(@Param("user") User user);
+
+    List<User> getUserList();
+
 }

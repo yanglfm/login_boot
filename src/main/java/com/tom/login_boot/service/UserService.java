@@ -14,4 +14,5 @@ public interface UserService {
     ResultEntity checkUsername(String username,String currentUsername);
 
     ResultEntity editUserInfo(User user);
+
 }

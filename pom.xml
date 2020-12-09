@@ -84,11 +84,12 @@
         </dependency>
 
         <!--MySQL 连接驱动-->
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>mysql</groupId>-->
+        <!--            <artifactId>mysql-connector-java</artifactId>-->
+        <!--        </dependency>-->
 
+        <!--        依赖更新版本，修改为如下-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -125,7 +126,6 @@
             <artifactId>cos_api</artifactId>
             <version>5.6.24</version>
         </dependency>
-
 
 
     </dependencies>

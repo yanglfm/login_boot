@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private List<Module> getModules(List<Module> parentModules, List<Module> secondModules) {
+    public static List<Module> getModules(List<Module> parentModules, List<Module> secondModules) {
         for (Module parentModule : parentModules) {
             List<Module> childModules = new ArrayList<>();
             for (Module secondModule : secondModules) {
