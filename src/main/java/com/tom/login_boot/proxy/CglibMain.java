@@ -13,5 +13,7 @@ public class CglibMain {
         implTwo.web("-------uuufuuu -----");
         WebService proxy = CglibDynamicProxy.getInstance().getProxy(WebServiceImpl.class);
         proxy.web("----dfdf------");
+
+        /**/
     }
 }
